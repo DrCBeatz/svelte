@@ -1,3 +1,9 @@
+New branch:
+https://github.com/DrCBeatz/svelte/tree/svelte-styles-csp
+
+Changes:
+https://github.com/DrCBeatz/svelte/blob/svelte-styles-csp/src/runtime/internal/style_manager.ts
+
 [![Cybernetically enhanced web apps: Svelte](https://sveltejs.github.io/assets/banner.png)](https://svelte.dev)
 
 
