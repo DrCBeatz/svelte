@@ -1,0 +1,21 @@
+**/_actual.js
+**/expected.js
+_output
+test/*/samples/*/output.js
+test/svelte-styles-csp/*.js
+test/svelte-styles-csp/svelte-test-transitions-no-styles-csp/build/*.js
+test/svelte-styles-csp/svelte-test-transitions-styles-csp/build/*.js
+
+
+# automatically generated
+internal_exports.ts
+
+# output files
+animate/*.js
+esing/*.js
+internal/*.js
+motion/*.js
+store/*.js
+transition/*.js
+index.js
+compiler.js
