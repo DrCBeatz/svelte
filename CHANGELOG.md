@@ -1,5 +1,11 @@
 # Svelte changelog
 
+## 3.44.3
+
+* Fix `bind:this` binding inside `onMount` for manually instantiated component ([#6760](https://github.com/sveltejs/svelte/issues/6760))
+* Prevent cursor jumps with one-way binding for other `type="text"`-like `<input>`s ([#6941](https://github.com/sveltejs/svelte/pull/6941))
+* Exclude `async` loops from `loopGuardTimeout` ([#6945](https://github.com/sveltejs/svelte/issues/6945))
+
 ## 3.44.2
 
 * Fix overly restrictive preprocessor types ([#6904](https://github.com/sveltejs/svelte/pull/6904))
