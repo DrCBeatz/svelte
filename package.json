@@ -162,8 +162,6 @@
     ],
     "sourceMap": true,
     "instrument": true
-  },
-  "optionalDependencies": {
-    "fsevents": "^2.1.3"
   }
+
 }
