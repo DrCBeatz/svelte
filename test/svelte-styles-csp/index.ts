@@ -88,7 +88,7 @@ describe('svelte-style-csp', async () => {
         }
       } catch (err) {
         // svelte-stylesheet is not present so throws error
-        await browser.close();
+        // await browser.close();
         assert.throws(err);
       }
     });
