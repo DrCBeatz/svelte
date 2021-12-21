@@ -61,37 +61,6 @@ describe('svelte-style-csp', async () => {
   });
 
   describe('test transitions without svelte-styles-csp & strict CSP', async () => {
-    it('svelte-stylesheet not found', async () => {
-      const absolutePath = path.join(
-        __dirname,
-        'svelte-test-transitions-no-styles-csp/index.html'
-      );
-      const browser = await puppeteer.launch({ headless: headless_browser });
-      const page = await browser.newPage();
-      try {
-        await page.goto('file://' + absolutePath);
-        let linkTitle: string;
-        const linkTitles = await page.evaluateHandle(() => {
-          return Array.from(document.getElementsByTagName('link')).map(
-            (a) => a.title
-          );
-        });
-        const linkList = await linkTitles.jsonValue();
-
-        await browser.close();
-
-        for (const item of linkList) {
-          if (item == 'svelte-stylesheet') linkTitle = item;
-        }
-        if (linkTitle) {
-          console.log(linkTitle);
-        }
-      } catch (err) {
-        // svelte-stylesheet is not present so throws error
-        // await browser.close();
-        assert.throws(err);
-      }
-    });
     it('transitions fail with strict CSP and no style-src: unsafe-inline', async () => {
       const absolutePath = path.join(
         __dirname,
