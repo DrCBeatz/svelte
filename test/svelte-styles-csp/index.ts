@@ -77,7 +77,6 @@ describe('svelte-style-csp', async () => {
         await page.click('input');
       } catch (err) {
         // Transitions should fail with strict CSP
-        // await browser.close();
         assert.throws(err);
       }
       await browser.close();
