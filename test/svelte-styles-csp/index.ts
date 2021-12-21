@@ -1,6 +1,5 @@
 const puppeteer = require('puppeteer');
 import * as assert from 'assert';
-import get_svelte_style_sheet_index from '../../src/runtime/internal/style_manager';
 const path = require('path');
 
 // set to false to view transitions tested in Chromium
@@ -25,15 +24,14 @@ describe('svelte-style-csp', async () => {
         const linkTitles = await page.evaluateHandle(() => {
           return Array.from(document.getElementsByTagName('link')).map(
             (a) => a.title
-            );
-          });
-          const linkList = await linkTitles.jsonValue();
-          // await page.close();
-          await browser.close();
-          
-          for (const item of linkList) {
-            if (item == 'svelte-stylesheet') linkTitle = item;
-          }
+          );
+        });
+        const linkList = await linkTitles.jsonValue();
+        
+        await browser.close();
+        for (const item of linkList) {
+          if (item == 'svelte-stylesheet') linkTitle = item;
+        }
         assert.equal(linkTitle, 'svelte-stylesheet');
       } catch (err) {
         throw new Error(err);
@@ -53,7 +51,6 @@ describe('svelte-style-csp', async () => {
           await page.waitFor(1000);
         }
         await page.click('input');
-        // await page.close();
         await browser.close();
         // Transitions work and no errors are thrown
         assert.ok(true);
@@ -80,9 +77,9 @@ describe('svelte-style-csp', async () => {
           );
         });
         const linkList = await linkTitles.jsonValue();
-        // await page.close();
-        // await browser.close();
-        
+
+        await browser.close();
+
         for (const item of linkList) {
           if (item == 'svelte-stylesheet') linkTitle = item;
         }
@@ -91,8 +88,7 @@ describe('svelte-style-csp', async () => {
         }
       } catch (err) {
         // svelte-stylesheet is not present so throws error
-        // await page.close();
-        // await browser.close();
+        await browser.close();
         assert.throws(err);
       }
     });
@@ -110,12 +106,10 @@ describe('svelte-style-csp', async () => {
           await page.waitFor(1000);
         }
         await page.click('input');
-        // await page.close();
         await browser.close();
       } catch (err) {
         // Transitions should fail with strict CSP
-        // await page.close();
-        // await browser.close();
+        await browser.close();
         assert.throws(err);
       }
     });
