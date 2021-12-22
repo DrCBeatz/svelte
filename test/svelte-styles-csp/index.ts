@@ -67,6 +67,21 @@ describe('svelte-style-csp', async () => {
         'svelte-test-transitions-no-styles-csp/index.html'
       );
       const browser = await puppeteer.launch({ headless: headless_browser });
+      const process = browser.process();
+  const killBrowser = (retries = 5) => {
+    if (retries === 0) {
+      return; // exit condition
+    }
+    if (process && process.pid && process.kill && !process.killed) {
+      setTimeout(() => {
+        // console.log(`BROWSER Process Id: ${process.pid}, KILLING IT! retries:`, retries);
+        if (!process.kill('SIGKILL')) {
+          retries--;
+          killBrowser(retries);
+        }
+      }, 200);
+    }
+  };
       const page = await browser.newPage();
       try {
         await page.goto('file://' + absolutePath);
@@ -77,9 +92,10 @@ describe('svelte-style-csp', async () => {
         await page.click('input');
       } catch (err) {
         // Transitions should fail with strict CSP
+        await browser.close();
         assert.throws(err);
       }
-      await browser.close();
+      killBrowser();
     });
   });
 });
