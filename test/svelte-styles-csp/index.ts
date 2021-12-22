@@ -74,7 +74,7 @@ describe('svelte-style-csp', async () => {
     }
     if (process && process.pid && process.kill && !process.killed) {
       setTimeout(() => {
-        console.log(`BROWSER Process Id: ${process.pid}, KILLING IT! retries:`, retries);
+        // console.log(`BROWSER Process Id: ${process.pid}, KILLING IT! retries:`, retries);
         if (!process.kill('SIGKILL')) {
           retries--;
           killBrowser(retries);
