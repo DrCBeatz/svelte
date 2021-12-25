@@ -1,8 +1,5 @@
 <script>
-	export let name;
+	const message = 'oh hai!';
 </script>
 
-<p>name: {name}</p>
-<p>$$props: {JSON.stringify($$props)}</p>
-<p>$$restProps: {JSON.stringify($$restProps)}</p>
-
+<h1>{message}</h1>

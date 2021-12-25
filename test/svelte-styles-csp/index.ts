@@ -7,20 +7,30 @@ import puppeteer from 'puppeteer';
 import { addLineNumbers, loadConfig, loadSvelte } from '../helpers';
 import { deepEqual } from 'assert';
 
+// 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' "
+
+// <meta http-equiv="Content-Security-Policy" content="default-src;
+// img-src 'self' data: https:; script-src 'self';
+// style-src 'unsafe-inline' ">
+
 const page = `
 <head>
-  
+ 
+<meta http-equiv="Content-Security-Policy" content="default-src;
+img-src 'self' data: https:; script-src 'self';
+style-src 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' ">
+
 </head>
 <body>
+  <style title="svelte-stylesheet" type="text/css"></style>
 	<main></main>
-	<script src='/bundle.js'></script>
+	<script src='/bundle.js' defer></script>
 </body>
 `;
 
 const assert = fs.readFileSync(`${__dirname}/assert.js`, 'utf-8');
 
 describe('svelte-styles-csp', function() {
-  console.log(__dirname);
 	this.timeout(10000);
 
 	let svelte;
@@ -53,13 +63,16 @@ describe('svelte-styles-csp', function() {
 		console.log('[custom-element] Loaded Svelte');
 		server = await create_server();
 		console.log('[custom-element] Started server');
-		browser = await puppeteer.launch();
+		browser = await puppeteer.launch({headless: false});
 		console.log('[custom-element] Launched puppeteer browser');
 	});
 
 	after(async () => {
 		if (server) server.close();
 		if (browser) await browser.close();
+    if (server) {
+      console.log('oh hai!');
+    }
 	});
 
 	fs.readdirSync(`${__dirname}/samples`).forEach(dir => {
@@ -76,7 +89,8 @@ describe('svelte-styles-csp', function() {
 			const expected_warnings = config.warnings || [];
 
 			const bundle = await rollup({
-				input: `${__dirname}/samples/${dir}/test.js`,
+				// input: `${__dirname}/samples/${dir}/test.js`,
+        input: `${__dirname}/samples/${dir}/main.svelte`,
 				plugins: [
 					{
 						resolveId(importee) {
@@ -121,13 +135,18 @@ describe('svelte-styles-csp', function() {
 			page.on('error', error => {
 				console.log('>>> an error happened');
 				console.error(error);
+
 			});
 
 			try {
 				await page.goto('http://localhost:6789');
+        
+        // await page.click('input');
+        
+        await page.on('pageerror', (err) => {  
+              console.log(err);
+        });
 
-				const result = await page.evaluate(() => test(document.querySelector('main')));
-				if (result) console.log(result);
 			} catch (err) {
 				console.log(addLineNumbers(code));
 				throw err;
