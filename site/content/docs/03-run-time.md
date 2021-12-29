@@ -445,7 +445,7 @@ store = tweened(value: any, options)
 Tweened stores update their values over a fixed duration. The following options are available:
 
 * `delay` (`number`, default 0) — milliseconds before starting
-* `duration` (`number`, default 400) — milliseconds the tween lasts
+* `duration` (`number` | `function`, default 400) — milliseconds the tween lasts
 * `easing` (`function`, default `t => t`) — an [easing function](/docs#run-time-svelte-easing)
 * `interpolate` (`function`) — see below
 
@@ -879,7 +879,7 @@ You can see a full example on the [animations tutorial](/tutorial/animate)
 
 Easing functions specify the rate of change over time and are useful when working with Svelte's built-in transitions and animations as well as the tweened and spring utilities. `svelte/easing` contains 31 named exports, a `linear` ease and 3 variants of 10 different easing functions: `in`, `out` and `inOut`.
 
-You can explore the various eases using the [ease visualiser](/examples#easing) in the [examples section](/examples).
+You can explore the various eases using the [ease visualiser](/examples/easing) in the [examples section](/examples).
 
 
 | ease | in | out | inOut |
