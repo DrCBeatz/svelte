@@ -6,6 +6,18 @@ interface ExtendedDoc extends Document {
 	__svelte_rules: Record<string, true>;
 }
 
+export class StyleSheetTestObj {
+	title: string;
+	type: string;
+	cssRules: any[];
+
+	constructor(title: string, type: string = 'text/css', cssRules: any[] = []) {
+		this.title = title;
+		this.type = type;
+		this.cssRules = cssRules;
+	}
+}
+
 const active_docs = new Set<ExtendedDoc>();
 let active = 0;
 
@@ -18,7 +30,7 @@ function hash(str: string) {
 	return hash >>> 0;
 }
 
-export function get_svelte_style_sheet_index(style_sheet_list: StyleSheetList) {
+export function get_svelte_style_sheet_index(style_sheet_list: StyleSheetList | StyleSheetTestObj[]) {
 	let svelte_style_sheet_index: number;
 	const svelte_style_sheet_title = 'svelte-stylesheet';
 	
@@ -27,7 +39,9 @@ export function get_svelte_style_sheet_index(style_sheet_list: StyleSheetList) {
 			const css = <CSSStyleSheet>style_sheet_list[i];
 			
 		const css_rules = css?.cssRules;
+
 		if (!css_rules) continue;
+
 		if (css.title === svelte_style_sheet_title && css_rules.length === 0) {
 			svelte_style_sheet_index = i;
 			break;
